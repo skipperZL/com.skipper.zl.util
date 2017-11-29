@@ -211,10 +211,10 @@ public class Update {
 		
 		// win10 会议系统
 /*		String ws = "F:\\wzl\\hbuilderworkplace";
-		String pn = "智能会议";
+		String pn = "智能会议";  
 		String root = "";*/
 		
-		// 省残联短信平台
+		// 省残联短信平台 test
 /*		String ws = "F:\\wzl\\workspaceForEclipse4.7";
 		String pn = "CLMSG";
 		String root = "WebContent";*/
