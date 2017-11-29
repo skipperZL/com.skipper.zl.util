@@ -1,4 +1,4 @@
-package com.skipper.zl.util;
+package com.skipper.zl.utils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
