@@ -37,6 +37,7 @@ public class NumToChinese {
 			if (num == 0) {
 				if (addZero) {
 					chStr = chArray[0] + chStr;
+					addZero = false;
 				}
 			} else {
 				addZero = true;
