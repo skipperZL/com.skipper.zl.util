@@ -51,7 +51,7 @@ public class NumToChinese {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println(NumToChinese.numToChinese(1805501066));
+		System.out.println(NumToChinese.numToChinese(1005));
 	}
 	
 }
