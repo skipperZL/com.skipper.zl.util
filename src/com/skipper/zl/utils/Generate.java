@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Field;
+import java.util.List;
 
 
 
@@ -586,17 +587,81 @@ public class Generate {
 		return false;
 	}
 	
+	/**
+	 * @param superClass	ValueObject or WorkFlowBean
+	 */
+	public void generateModel(String superClass) {
+		DB db = new DB();
+		db.generateModel(db.getConn("Oracle"), "gwgl_publicity");
+		StringBuffer modelStr = new StringBuffer();
+		String lowModelStr = modelName.toLowerCase();
+		List<String> names = db.getNames();
+		List<String> types = db.getTypes();
+		List<String> comments = db.getComments();
+		modelStr.append("package ")
+					.append(packageName)
+					.append(".")
+					.append(lowModelStr)
+					.append(".model;\n")
+					.append("\n\n")
+					.append("public class " + modelName + " extends " + superClass + "{\n\n")
+					;
+		for (int i = 0; i<names.size(); i++) {
+			modelStr.append("\t/** ")
+					.append(comments.get(i) == null ? "" : comments.get(i))
+					.append(" */\n")
+					;
+			modelStr.append("\t private ")
+					.append(sqlType2JavaType(types.get(i)))
+					.append(" ")
+					.append(names.get(i).toLowerCase() + ";\n")
+					;
+		}
+		modelStr.append("}");
+		generateFile(modelStr, "model", modelName, "java");
+
+	}
+
+	/**
+	 * 功能：获得列的数据类型
+	 * @param sqlType
+	 * @return
+	 */
+	private String sqlType2JavaType(String sqlType) {
+
+		if (sqlType.equalsIgnoreCase("bit")) {
+			return "boolean";
+		} else if (sqlType.equalsIgnoreCase("tinyint")) {
+			return "byte";
+		} else if (sqlType.equalsIgnoreCase("smallint")) {
+			return "short";
+		} else if (sqlType.equalsIgnoreCase("int") || sqlType.equalsIgnoreCase("number")) {
+			return "int";
+		}  else if (sqlType.equalsIgnoreCase("float")) {
+			return "float";
+		} else if (sqlType.equalsIgnoreCase("varchar") || sqlType.equalsIgnoreCase("char")
+				|| sqlType.equalsIgnoreCase("nvarchar") || sqlType.equalsIgnoreCase("nchar")
+				|| sqlType.equalsIgnoreCase("VARCHAR2") || sqlType.equalsIgnoreCase("text")
+				|| sqlType.equalsIgnoreCase("CLOB")) {
+			return "String";
+		} else if (sqlType.equalsIgnoreCase("datetime") || sqlType.equalsIgnoreCase("date")) {
+			return "Date";
+		} 
+		return null;
+	}
 	
 	public static void main(String[] args) {
 		String packageName = "cn.xioa.portal";
 		String modelName = "Test";
 		String des = "D:";
-		String tableName = "tb_test";
+		String tableName = "pub_usertable";
 		Class modelClass = Test.class;
-		String pk = "docid"; //  表主键
-		String id = "userid"; // 主键对应model id    model必需有此字段
+		String pk = "publicityid"; //  表主键
+		String id = "publicityid"; // 主键对应model id    model必需有此字段
 		String sqlUtils = "cn.prpsdc.base.model.SQLUtils"; // 
 		Generate g = new Generate(packageName, modelName, des, tableName, modelClass, pk, id, sqlUtils);
-		g.startForWorkFlow();
+		
+		//g.generateModel("ValueObject");
+		g.startNormal();
 	}
 }
