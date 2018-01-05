@@ -1,0 +1,14 @@
+1 eclipse maven git svn gradle 
+2 IntelliJ IDEA
+3 PLSQL 8.0
+4 navicat for mysql
+5 myeclipse
+6 atom for html
+7 evernote
+8 cnds blog
+9 github
+10 git bash
+11 anki 
+12 ultraEdit
+13 hbuilder
+14 Shadowsocks-4.0.6

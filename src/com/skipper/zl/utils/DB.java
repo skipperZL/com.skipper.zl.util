@@ -45,7 +45,7 @@ public class DB {
 	}
 
 	// get Connection
-	public Connection getConn(String dbName) {
+	public Connection getConn() {
 		
 		String rootPath = null;
 		String url = null;
@@ -58,43 +58,38 @@ public class DB {
 		Properties props =new Properties();
 		
 		// 参数设定
-		if (dbName.equals("Oracle")) {
-			try {
-				p.load(new FileInputStream(rootPath +"/config/" + dbName + ".properties"));
-			} catch (FileNotFoundException e) {
-				System.out.println("配置文件不存在...");
-				e.printStackTrace();
+		try {
+			p.load(new FileInputStream(rootPath +"/config/JDBC.properties"));
+		} catch (FileNotFoundException e) {
+			System.out.println("配置文件不存在...");
+			e.printStackTrace();
 
-			} catch (IOException e) {
-				e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 
-			}
-			url = p.getProperty("url");
-			driver = p.getProperty("driver");
-			user = p.getProperty("user");
-			password = p.getProperty("password");
-			props.setProperty("user", user);
-			props.setProperty("password", password);
-			props.setProperty("remarks", "true"); // set remarks true
-
-		} else {
-			System.out.println("dbName格式不正确...");
-			return null;
 		}
+		url = p.getProperty("url");
+		driver = p.getProperty("driver");
+		user = p.getProperty("user");
+		password = p.getProperty("password");
+		props.setProperty("user", user);
+		props.setProperty("password", password);
+		props.setProperty("remarks", "true"); // set remarks true
+
 		// 加载驱动
 		try {
 			Class.forName(driver);
 		} catch (ClassNotFoundException e1) {
-			System.out.println(dbName + "无法找到驱动...");
+			System.out.println("无法找到驱动...");
 			e1.printStackTrace();
 
 		}
 		// 获取连接
 		try {
 			con = DriverManager.getConnection(url, props);
-			System.out.println(dbName + "数据库连接成功!");
+			System.out.println("数据库连接成功!");
 		} catch (SQLException e) {
-			System.out.println(dbName + "数据库连接失败...");
+			System.out.println("数据库连接失败...");
 			e.printStackTrace();
 
 		}

@@ -592,7 +592,7 @@ public class Generate {
 	 */
 	public void generateModel(String superClass) {
 		DB db = new DB();
-		db.generateModel(db.getConn("Oracle"), "gwgl_publicity");
+		db.generateModel(db.getConn(), tableName);
 		StringBuffer modelStr = new StringBuffer();
 		String lowModelStr = modelName.toLowerCase();
 		List<String> names = db.getNames();
@@ -652,16 +652,16 @@ public class Generate {
 	
 	public static void main(String[] args) {
 		String packageName = "cn.xioa.portal";
-		String modelName = "Test";
+		String modelName = "Test2";
 		String des = "D:";
 		String tableName = "pub_usertable";
 		Class modelClass = Test.class;
-		String pk = "publicityid"; //  表主键
-		String id = "publicityid"; // 主键对应model id    model必需有此字段
+		String pk = "userid"; //  表主键
+		String id = "userid"; // 主键对应model id    model必需有此字段
 		String sqlUtils = "cn.prpsdc.base.model.SQLUtils"; // 
 		Generate g = new Generate(packageName, modelName, des, tableName, modelClass, pk, id, sqlUtils);
 		
-		//g.generateModel("ValueObject");
-		g.startNormal();
+		g.generateModel("ValueObject");
+		//g.startNormal();
 	}
 }
