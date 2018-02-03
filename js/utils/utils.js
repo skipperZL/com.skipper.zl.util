@@ -93,3 +93,41 @@ function SubmitCk() {
 非正浮点数（负浮点数 + 0） ^((-\d+(\.\d+)?)|(0+(\.0+)?))$ 
 负浮点数 ^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$ 
 浮点数 ^(-?\d+)(\.\d+)?$*/
+
+// clearInputFile 
+function clearInputFile(file) {
+      var ie = (navigator.appVersion.indexOf("MSIE")!=-1); 
+    if( ie ){ 
+        var file2= file.cloneNode(false);
+        file2.onchange= file.onchange; 
+        file.parentNode.replaceChild(file2,file); 
+    }else{ 
+        jQuery(file).val(""); 
+    }
+}
+
+function checkImg(obj) {
+      //判断图片类型 
+    var f=obj.value; 
+    if(f=="") {
+          alert("请上传图片");
+          return false;
+       } else { 
+            if(!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(f)){ 
+            alert("图片类型必须是.gif,jpeg,jpg,png中的一种")
+            clearInputFile(obj); 
+            return false; 
+     } 
+    }
+    return true;
+      }
+
+function isEnterKey() {
+   jQuery("#message").keydown(function(event) { 
+         if (event.keyCode == 13) {
+             //do something
+         } 
+     }); 
+
+   }
+

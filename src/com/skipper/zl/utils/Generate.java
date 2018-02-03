@@ -19,10 +19,17 @@ public class Generate {
 	private String id; // model id
 	private String sqlUtils; // cn.prpsdc.base.model.SQLUtils 
 	
+	public static final String IMPORT = "import";
+	public static final String IMPORT_RESOURCE = "import javax.annotation.Resource;";
+	public static final String IMPORT_REPOSITORY = "import org.springframework.stereotype.Repository;";
+	public static final String IMPORT_SERVICE = "import org.springframework.stereotype.Service;";
+	
+	
+	
 	public Generate(String packageName, String modelName, String des, String tableName, Class modelClass, String pk, String id, String sqlUtils) {
 		this.packageName = packageName;
 		this.modelName = modelName;
-		this.des = des;
+		this.des = des + packageName.replace(".", "\\") + "\\";
 		this.tableName = tableName;
 		this.modelClass = modelClass;
 		this.pk = pk;
@@ -104,8 +111,9 @@ public class Generate {
 						.append(packageName)
 						.append(".")
 						.append(lowModelStr)
-						.append(".service;\n");
+						.append(".service;\n\n");
 		// public interface DeviceService  extends IDesignService<Device> {
+		serviceInterface.append(getImportModelStr() + "\n\n");
 		serviceInterface.append("public interface ")
 						.append(modelName)
 						.append("Service  extends IDesignService<")
@@ -118,6 +126,10 @@ public class Generate {
 						.append(".")
 						.append(lowModelStr)
 						.append(".service;\n\n");
+		serviceStr.append(IMPORT_RESOURCE + "\n")
+				.append(IMPORT_SERVICE + "\n")
+				.append(getImportModelStr() + "\n")
+				.append(getImoprtDaoStr() + "\n\n");
 		//@Service("meetingService")
 		serviceStr.append("@Service(\"")
 					.append(lowModelStr)
@@ -165,7 +177,8 @@ public class Generate {
 						.append(packageName)
 						.append(".")
 						.append(lowModelStr)
-						.append(".dao;\n");
+						.append(".dao;\n\n");
+		daoInterface.append(getImportModelStr() + "\n\n");
 		// public interface DeviceDao extends IDesignDAO<Device>  {
 		daoInterface.append("public interface ")
 						.append(modelName)
@@ -178,7 +191,9 @@ public class Generate {
 				.append(packageName)
 				.append(".")
 				.append(lowModelStr)
-				.append(".dao;\n");
+				.append(".dao;\n\n");
+		daoStr.append(IMPORT_REPOSITORY + "\n");
+		daoStr.append(getImportModelStr() + "\n\n");
 		//@Repository("deviceDao")
 		daoStr.append("@Repository(\"")
 					.append(lowModelStr)
@@ -218,8 +233,11 @@ public class Generate {
 						.append(packageName)
 						.append(".")
 						.append(lowModelStr)
-						.append(".action;\n");
+						.append(".action;\n\n");
 		// public class DeviceAction extends BaseAction<Device>{
+		actionStr.append(IMPORT_RESOURCE + "\n")
+						.append(getImportModelStr() + "\n")
+						.append(getImoprtServiceStr() + "\n\n");
 		actionStr.append("public class ")
 						.append(modelName)
 						.append("Action extends ")
@@ -337,7 +355,7 @@ public class Generate {
 		.append(tableName)
 		.append(", VV_PUB_FLOW pub\n")
 		.append("\t\twhere t.docid=pub.docid\n")
-		.append("\t</selet>\n\n")				
+		.append("\t</select>\n\n")				
 		;
 		
 		// selectByPrimaryKey
@@ -347,7 +365,7 @@ public class Generate {
 		.append("\t\tfrom ")
 		.append(tableName + "\n")
 		.append("\t\twhere " + pk + " = #" + id + "#\n")
-		.append("\t</selet>\n\n")				
+		.append("\t</select>\n\n")				
 		;
 		
 		//countByWhere_Clause	
@@ -357,7 +375,7 @@ public class Generate {
 		.append("\t\t<isParameterPresent>\n")
 		.append("\t\t\t<include refid=\"IBatisDefault.Where_Clause\" />\n")
 		.append("\t\t</isParameterPresent>\n")
-		.append("\t</selet>\n\n")				
+		.append("\t</select>\n\n")				
 		;
 		
 		//selectByWhere_Clause	
@@ -370,7 +388,7 @@ public class Generate {
 		.append("\t\t\t\torder by $orderByClause$\n")
 		.append("\t\t\t</isNotNull>\n")
 		.append("\t\t</isParameterPresent>\n")
-		.append("\t</selet>\n\n")				
+		.append("\t</select>\n\n")				
 		;
 		
 		//count_selectAllByWhere_Clause	
@@ -380,7 +398,7 @@ public class Generate {
 		.append("\t\t<isParameterPresent>\n")
 		.append("\t\t\t<include refid=\"IBatisDefault.Where_Clause\" />\n")
 		.append("\t\t</isParameterPresent>\n")
-		.append("\t</selet>\n\n")				
+		.append("\t</select>\n\n")				
 		;
 		
 		//selectAllByWhere_Clause	
@@ -393,7 +411,7 @@ public class Generate {
 		.append("\t\t\t\torder by $orderByClause$\n")
 		.append("\t\t\t</isNotNull>\n")
 		.append("\t\t</isParameterPresent>\n")
-		.append("\t</selet>\n\n")				
+		.append("\t</select>\n\n")				
 		;
 		
 		//deleteByWhere_Clause
@@ -482,7 +500,7 @@ public class Generate {
 		.append("\t\tselect " + selectByPrimaryKeyStr + " from ")
 		.append(tableName)
 		.append("\n")
-		.append("\t</selet>\n\n")				
+		.append("\t</select>\n\n")				
 		;
 		
 		// selectByPrimaryKey
@@ -492,7 +510,7 @@ public class Generate {
 		.append("\t\tfrom ")
 		.append(tableName + "\n")
 		.append("\t\twhere " + pk + " = #" + id + "#\n")
-		.append("\t</selet>\n\n")				
+		.append("\t</select>\n\n")				
 		;
 		
 		//countByWhere_Clause	
@@ -502,7 +520,7 @@ public class Generate {
 		.append("\t\t<isParameterPresent>\n")
 		.append("\t\t\t<include refid=\"IBatisDefault.Where_Clause\" />\n")
 		.append("\t\t</isParameterPresent>\n")
-		.append("\t</selet>\n\n")				
+		.append("\t</select>\n\n")				
 		;
 		
 		//selectByWhere_Clause	
@@ -515,13 +533,13 @@ public class Generate {
 		.append("\t\t\t\torder by $orderByClause$\n")
 		.append("\t\t\t</isNotNull>\n")
 		.append("\t\t</isParameterPresent>\n")
-		.append("\t</selet>\n\n")				
+		.append("\t</select>\n\n")				
 		;
 
 		//deleteByWhere_Clause 
 		sqlMapStr.append("\t<delete id=\"deleteByWhere_Clause\" parameterClass=\"" + sqlUtils + "\">\n")
 		.append("\t\tdelete from " + tableName + "\n")
-		.append("\t\twhere " + pk + " in (select " + pk + " from (select " + selectByPrimaryKeyStr + " from " + tableName 
+		.append("\t\twhere " + pk + " in (select " + id + " from (select " + selectByPrimaryKeyStr + " from " + tableName 
 				+ " t) tmp \n")
 		.append("\t\t<include refid=\"IBatisDefault.Where_Clause\" />)\n")
 		.append("\t</delete>\n\n")
@@ -532,14 +550,54 @@ public class Generate {
 	}
 	
 	public void generateStrutsXml() {
+		String firstLowModelName = modelName.substring(0, 1).toLowerCase() + modelName.substring(1, modelName.length());
+		StringBuffer strutsXmlStr = new StringBuffer();
+		strutsXmlStr.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+					.append("<!DOCTYPE struts PUBLIC\r\n" + 
+							"         \"-//Apache Software Foundation//DTD Struts Configuration 2.1//EN\"\r\n" + 
+							"         \"http://struts.apache.org/dtds/struts-2.1.dtd\">\n")
+					.append("<struts>\n")
+					.append("\t<package ")
+					.append("name=\"" + firstLowModelName + "\"")
+					.append(" namespace=\"/portal/everydayWork/" + firstLowModelName + "\"")
+					.append(" extends=\"default\">\n")
+					.append(" 		<action name=\"*\" class=\"" + getActionClassName() + "\" method=\"{1}\">\r\n" + 
+							"			<!-- 服务器转发 -->\r\n" + 
+							"			<result name=\"forward\" type=\"CEDispatcher\">/portal/dispatch/everydayWork/"+ firstLowModelName +"/${viewpath}</result>\r\n" + 
+							"			<!-- 客户端转向 -->\r\n" + 
+							"			<result name=\"redirect\" type=\"CERedirect\">${viewpath}</result>\r\n" + 
+							"			<!-- 保存校验出错转向 -->\r\n" + 
+							"			<result name=\"input\" type=\"CEDispatcher\">/portal/dispatch/everydayWork/" + firstLowModelName + "/${viewpath}</result>\r\n" + 
+							"		</action>\r\n" + 
+							" 	</package>\r\n" + 
+							" 	\r\n" + 
+							" </struts>\n");
+		generateFile(strutsXmlStr, "", "struts-" + modelName.toLowerCase(), "xml");	
 		
+					
 	}
 		
-	public void generateFile(StringBuffer content,String type, String name, String suffix) {
+	public void generateFile(StringBuffer content, String type, String name, String suffix) {
 		File file = new File(des + "\\" + modelName.toLowerCase() + "\\" + type);
 		if (!file.exists())
 			file.mkdirs();
 		File desFile = new File(des + "\\" + modelName.toLowerCase() + "\\" + type + "\\" + name + "." + suffix);		
+		try {
+			OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(desFile),"UTF-8");
+			out.write(content.toString());
+			out.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void generateFile(String dir, StringBuffer content, String name, String suffix) {
+		File file = new File(dir);
+		if (!file.exists())
+			file.mkdirs();
+		File desFile = new File(dir + "\\" + name + "." + suffix);		
 		try {
 			OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(desFile),"UTF-8");
 			out.write(content.toString());
@@ -557,6 +615,7 @@ public class Generate {
 			generateDao();
 			generateAction("OfficeWorkFlowAction");
 			generateSqlMapForWorkFlow();
+			generateStrutsXml();
 		}
 	}
 	
@@ -566,6 +625,7 @@ public class Generate {
 			generateDao();
 			generateAction("BaseAction");
 			generateSqlMapForNormal();
+			generateStrutsXml();
 		}
 	}
 	
@@ -619,6 +679,9 @@ public class Generate {
 		}
 		modelStr.append("}");
 		generateFile(modelStr, "model", modelName, "java");
+		String srcPath = System.getProperty("user.dir") + "\\src" + "\\";
+		srcPath += this.getClass().getPackage().getName().replace(".", "\\") + "\\";
+		generateFile(srcPath, modelStr, modelName, "java");
 
 	}
 
@@ -650,18 +713,36 @@ public class Generate {
 		return null;
 	}
 	
+	public String getImportModelStr() {
+		return IMPORT + " " + getFullQualifyName() + ";";
+	}
+	
+	public String getImoprtServiceStr() {
+		return IMPORT + " " + packageName + "." + modelName.toLowerCase() + ".service." + modelName + "Service" + ";";
+	}
+	
+	public String getImoprtDaoStr() {
+		return IMPORT + " " + packageName + "." + modelName.toLowerCase() + ".dao." + modelName + "Dao" + ";";
+	}
+	
+	public String getActionClassName() {
+		return packageName + "." + modelName.toLowerCase() + ".action." + modelName + "Action";
+	}
+	
 	public static void main(String[] args) {
-		String packageName = "cn.xioa.portal";
-		String modelName = "Test2";
-		String des = "D:";
-		String tableName = "pub_usertable";
-		Class modelClass = Test.class;
-		String pk = "userid"; //  表主键
-		String id = "userid"; // 主键对应model id    model必需有此字段
+		String packageName = "cn.prpsdc.portal.everydayWork";
+		String modelName = "MeetingNotices";
+		String des = "F:\\wzl\\workspaceForEclipse4.7\\gdsclsoa\\src\\"; // 项目路径
+		String tableName = "public_meetingnotices";
+		String pk = "meetingnoticeid"; //  表主键
+		String id = "id"; // 主键对应model id    model必需有此字段
 		String sqlUtils = "cn.prpsdc.base.model.SQLUtils"; // 
+		Class modelClass = MeetingNotices.class;
 		Generate g = new Generate(packageName, modelName, des, tableName, modelClass, pk, id, sqlUtils);
 		
-		g.generateModel("ValueObject");
-		//g.startNormal();
+		// First
+		//g.generateModel("ValueObject");
+		// Second
+		g.startNormal();
 	}
 }
