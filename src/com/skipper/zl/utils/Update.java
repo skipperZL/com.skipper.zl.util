@@ -204,32 +204,33 @@ public class Update {
 		String pn = "gdscloa_new";
 		String root = "webapp";*/
 		
-/*		// 省残联 下属
+		// 省残联 下属
 		String ws = "F:\\wzl\\workspaceForEclipse4.7";
 		String pn = "gdsclsoa";
-		String root = "webapp";*/
+		String root = "webapp";
 		
 /*		// 省残联
 		String ws = "F:\\wzl\\eclipseworkplace";
 		String pn = "gdscloa_new";
 		String root = "webapp";*/
 		
-/*	// win10 会议系统
-		String ws = "F:\\wzl\\hbuilderworkplace";
+	// win10 会议系统
+/*		String ws = "F:\\wzl\\hbuilderworkplace";
 		String pn = "智能会议";  
-		String root = "";
-		*/
+		String root = "";*/
+		
 		// 省残联短信平台 test
 /*		String ws = "F:\\wzl\\workspaceForEclipse4.7";
 		String pn = "CLMSG";
 		String root = "WebContent";*/
 		
-		// 会议系统
+/*		// 会议系统
 		String ws = "F:\\wzl\\workspaceForEclipse4.7";
 		String pn = "MeetingService";
-		String root = "WebContent";
+		String root = "WebContent";*/
 		
-		String patch = "D:\\patch.txt";
+		//String patch = "D:\\patch.txt";
+		String patch = "D:\\revision.diff";
 		String target = "D:\\update"; 
 		String rootPath = "src;system";
 		Update update = new Update(ws, pn, root, patch, rootPath);

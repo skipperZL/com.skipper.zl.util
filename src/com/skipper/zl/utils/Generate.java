@@ -104,6 +104,7 @@ public class Generate {
 
 	public void generateService() {
 		String lowModelStr = modelName.toLowerCase();
+		String lowModelStr1 = modelName.substring(0, 1).toLowerCase() + modelName.substring(1);
 		StringBuffer serviceStr = new StringBuffer();
 		StringBuffer serviceInterface = new StringBuffer();
 		// 包名  package cn.xioa.portal.device.service;
@@ -132,7 +133,7 @@ public class Generate {
 				.append(getImoprtDaoStr() + "\n\n");
 		//@Service("meetingService")
 		serviceStr.append("@Service(\"")
-					.append(lowModelStr)
+					.append(lowModelStr1)
 					.append("Service\")\n");
 		// public class MeetingServiceImpl extends AbstractDesignService<Meeting> implements MeetingService{
 		serviceStr.append("public class ")
@@ -148,7 +149,7 @@ public class Generate {
 		//	return meetingDao;
 		//}
 		serviceStr.append("\t@Resource(name=\"")
-					.append(lowModelStr)
+					.append(lowModelStr1)
 					.append("Dao\")\n")
 					.append("\tprivate ")
 					.append(modelName)
@@ -159,7 +160,7 @@ public class Generate {
 					.append(modelName)
 					.append("> getDAO() {\n")
 					.append("\t\treturn ")
-					.append(lowModelStr)
+					.append(lowModelStr1)
 					.append("Dao;\n")
 					.append("\t}\n")
 					.append("}");
@@ -170,6 +171,7 @@ public class Generate {
 	
 	public void generateDao() {
 		String lowModelStr = modelName.toLowerCase();
+		String lowModelStr1 = modelName.substring(0, 1).toLowerCase() + modelName.substring(1);
 		StringBuffer daoStr = new StringBuffer();
 		StringBuffer daoInterface = new StringBuffer();
 		// 包名 package cn.xioa.portal.device.dao;
@@ -196,7 +198,7 @@ public class Generate {
 		daoStr.append(getImportModelStr() + "\n\n");
 		//@Repository("deviceDao")
 		daoStr.append("@Repository(\"")
-					.append(lowModelStr)
+					.append(lowModelStr1)
 					.append("Dao\")\n");
 		// public class DeviceDaoImpl extends IBatisBaseDAO<Device> implements DeviceDao  {
 		daoStr.append("public class ")
@@ -227,6 +229,7 @@ public class Generate {
 	 * */
 	public void generateAction(String superClass) {
 		String lowModelStr = modelName.toLowerCase();
+		String lowModelStr1 = modelName.substring(0, 1).toLowerCase() + modelName.substring(1);
 		StringBuffer actionStr = new StringBuffer();
 		// 包名  cn.xioa.portal.device.action
 		actionStr.append("package ")
@@ -259,7 +262,7 @@ public class Generate {
 		
 
 		actionStr.append("\t@Resource(name=\"")
-					.append(lowModelStr)
+					.append(lowModelStr1)
 					.append("Service\")\n")
 					.append("\tprivate ")
 					.append(modelName)
@@ -270,7 +273,7 @@ public class Generate {
 					.append(modelName)
 					.append("> getService() {\n")
 					.append("\t\treturn ")
-					.append(lowModelStr)
+					.append(lowModelStr1)
 					.append("Service;\n")
 					.append("\t}\n\n")
 					.append("\tpublic String getPtitle() {\n")
@@ -730,14 +733,15 @@ public class Generate {
 	}
 	
 	public static void main(String[] args) {
-		String packageName = "cn.prpsdc.portal.everydayWork";
-		String modelName = "MeetingNotices";
-		String des = "F:\\wzl\\workspaceForEclipse4.7\\gdsclsoa\\src\\"; // 项目路径
-		String tableName = "public_meetingnotices";
-		String pk = "meetingnoticeid"; //  表主键
+		String packageName = "cn.prpsdc.portal.hrm";
+		String modelName = "OldWorkItem";
+		//String des = "F:\\wzl\\IntelliJWorkSpace\\zsoa\\src\\"; // 项目路径
+		String des = "D:\\wzl\\"; // 项目路径
+		String tableName = "HR_KQGL_LEAVE_ATTEND";
+		String pk = "id"; //  表主键
 		String id = "id"; // 主键对应model id    model必需有此字段
 		String sqlUtils = "cn.prpsdc.base.model.SQLUtils"; // 
-		Class modelClass = MeetingNotices.class;
+		Class modelClass = OldWorkItem.class;
 		Generate g = new Generate(packageName, modelName, des, tableName, modelClass, pk, id, sqlUtils);
 		
 		// First
