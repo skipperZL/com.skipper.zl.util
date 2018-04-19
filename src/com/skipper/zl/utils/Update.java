@@ -200,7 +200,7 @@ public class Update {
 	
 	public static void main(String[] args) {
 		// 省残联
-		/*String ws = "F:\\wzl\\workspaceForEclipse4.7";
+/*		String ws = "F:\\wzl\\workplace";
 		String pn = "gdscloa_new";
 		String root = "webapp";*/
 		
